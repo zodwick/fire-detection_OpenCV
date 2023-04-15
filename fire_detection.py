@@ -2,6 +2,63 @@
 import numpy as np
 import cv2
 import time
+import firebase_admin
+from firebase_admin import firestore
+from firebase_admin import credentials
+from google.cloud import storage
+from google.oauth2 import service_account
+from firebase_admin import credentials, storage
+
+
+
+
+
+cred = credentials.Certificate("hackverse-5ecdd-firebase-adminsdk-ftdmd-308179e4be.json")
+firebase_admin.initialize_app(cred, {'storageBucket': 'hackverse-5ecdd.appspot.com'})
+
+
+
+def write_to_firestore(colection_name: str, details: dict):
+    # app = firebase_admin.initialize_app(cred)
+    
+    firestore_client = firestore.client()
+    doc_ref = firestore_client.collection(colection_name).document()
+    doc_ref.set(
+        details
+    )
+    
+
+
+
+def upload_to_firestore(bucket_name, source_file_name, destination_blob_name):
+    # cred = credentials.Certificate("hackverse-5ecdd-firebase-adminsdk-ftdmd-308179e4be.json")
+    bucket = storage.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+    blob.upload_from_filename(source_file_name)
+    print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+    blob.make_public()
+    print(blob.public_url)
+
+
+
+details={
+    "tittle": "Fire accident",
+    "description": "A big building got large fire",
+    "intensity": "7",
+   
+    "location": { "latitude": 13.009267, "longitude": 74.795371},
+    "image":
+      "https://bsmedia.business-standard.com/_media/bs/img/article/2022-05/13/full/1652462127-1638.jpg?im=Resize,width=480",
+    #datetime: getCurrentDate(),
+    "policehelp": True,
+    "firehelp": True,
+    "ambulancehelp": False,
+    "otherhelp": False,
+    "imageurl": "",
+    "status": "NEW",
+  }
+
+
 
 
 fire_cascade = cv2.CascadeClassifier('fire_detection.xml')
@@ -11,7 +68,8 @@ fire_cascade = cv2.CascadeClassifier('fire_detection.xml')
 
 cap = cv2.VideoCapture("v5.mp4")
 i=0
-    
+flag=0
+ 
 while 1:
     ret, img = cap.read()
     img=cv2.resize(img,(960,540))
@@ -26,8 +84,10 @@ while 1:
  
     for (x,y,w,h) in fire:
         cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),4)
-        f_name="fire"+str(i)+".jpg"
-        cv2.imwrite(f_name,img)
+        if i==2:
+            f_name="fire"+str(i)+".jpg"
+            cv2.imwrite(f_name,img)
+            
         #print(f_name)
 
         # roi_gray = gray[y:y+h, x:x+w]

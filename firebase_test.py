@@ -26,7 +26,7 @@ def write_to_firestore(colection_name: str, details: dict):
 
 
 
-def upload_blob(bucket_name, source_file_name, destination_blob_name):
+def upload_to_firestore(bucket_name, source_file_name, destination_blob_name):
     # cred = credentials.Certificate("hackverse-5ecdd-firebase-adminsdk-ftdmd-308179e4be.json")
     bucket = storage.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
@@ -57,6 +57,6 @@ details={
 
 
 # Example usage
-upload_blob('hackverse-5ecdd.appspot.com', 'wordle.png', 'wordle.png')
+upload_to_firestore('hackverse-5ecdd.appspot.com', 'wordle.png', 'wordle.png')
 # write_to_firestore('fire', details)
 
