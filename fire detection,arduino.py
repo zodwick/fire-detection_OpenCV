@@ -10,7 +10,7 @@ fire_cascade = cv2.CascadeClassifier('fire_detection.xml')
 
 # ser1 = serial.Serial('COM14',9600)#change COM port number on which your arduino is connected
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("v3.mp4")
 while 1:
     ret, img = cap.read()
     #cv2.imshow('imgorignal',img)
