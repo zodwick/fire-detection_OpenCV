@@ -44,7 +44,7 @@ while 1:
     img=cv2.resize(img,(960,540))
     # cv2.imshow('imgorignal',img)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    fire = fire_cascade.detectMultiScale(gray, 1.2, 3)    
+    fire = fire_cascade.detectMultiScale(gray, 1.2, 10)    
     #scale factor, which determines how much the image size is reduced at each image scale
     #minNeighbors, which determines how many neighbors each candidate rectangle should have to retain it. This is used to reduce false positives.
     
