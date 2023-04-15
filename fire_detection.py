@@ -61,10 +61,10 @@ details={
 
 
 
+
+
 fire_cascade = cv2.CascadeClassifier('fire_detection.xml')
 #fire_detection.xml file & this code should be in the same folder while running the code as no path is given
-
-
 
 cap = cv2.VideoCapture("v5.mp4")
 i=0
@@ -75,9 +75,7 @@ while 1:
     img=cv2.resize(img,(960,540))
     # cv2.imshow('imgorignal',img)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    fire = fire_cascade.detectMultiScale(img, 1.2, 3)
-    #print(fire)
-    
+    fire = fire_cascade.detectMultiScale(img, 1.2, 3)    
     #scale factor, which determines how much the image size is reduced at each image scale
     #minNeighbors, which determines how many neighbors each candidate rectangle should have to retain it. This is used to reduce false positives.
     
@@ -87,6 +85,8 @@ while 1:
         if i==2:
             f_name="fire"+str(i)+".jpg"
             cv2.imwrite(f_name,img)
+            write_to_firestore("fire",details)
+            upload_to_firestore("hackverse-5ecdd.appspot.com",f_name,f_name)
             
         #print(f_name)
 
