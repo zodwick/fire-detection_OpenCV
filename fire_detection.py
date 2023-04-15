@@ -9,12 +9,19 @@ fire_cascade = cv2.CascadeClassifier('fire_detection.xml')
 
 
 
-cap = cv2.VideoCapture("v3.mp4")
+cap = cv2.VideoCapture("v4.mp4")
 while 1:
     ret, img = cap.read()
+    img=cv2.resize(img,(960,540))
     # cv2.imshow('imgorignal',img)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    fire = fire_cascade.detectMultiScale(img, 1.2, 2)
+    fire = fire_cascade.detectMultiScale(img, 1.2, 5)
+    
+    
+    #scale factor, which determines how much the image size is reduced at each image scale
+    #minNeighbors, which determines how many neighbors each candidate rectangle should have to retain it. This is used to reduce false positives.
+    
+    
     for (x,y,w,h) in fire:
         cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),4)
         # roi_gray = gray[y:y+h, x:x+w]
@@ -29,6 +36,7 @@ while 1:
     # ser1.write('s')
     
     k = cv2.waitKey(30) & 0xff
+
     if k == 27:
         break
 
