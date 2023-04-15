@@ -21,9 +21,13 @@ while 1:
     #scale factor, which determines how much the image size is reduced at each image scale
     #minNeighbors, which determines how many neighbors each candidate rectangle should have to retain it. This is used to reduce false positives.
     
+    i=0
     
     for (x,y,w,h) in fire:
         cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),4)
+        f_name="fire"+str(i)+".jpg"
+        cv2.imwrite(f_name,img)
+
         # roi_gray = gray[y:y+h, x:x+w]
         # roi_color = img[y:y+h, x:x+w]
         # edges = cv2.Canny(roi_gray, 100, 200)
@@ -31,6 +35,7 @@ while 1:
         print ('Fire is detected..!')
         # ser1.write('p')
         time.sleep(0.2)
+        i+=1
         
     cv2.imshow('fire_detector',img)
     # ser1.write('s')
