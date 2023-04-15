@@ -81,9 +81,34 @@
 
 
 
-import geocoder
-g = geocoder.ip('me')
-print(g.latlng)
+# import geocoder
+# g = geocoder.ip('me')
+# print(g.latlng)
 
-t = geocoder.freegeoip('99.240.181.199')
-print(t)
+# t = geocoder.freegeoip('99.240.181.199')
+# print(t)
+
+
+
+
+details={
+    "tittle": "Fire accident",
+    "description": "A big building got large fire",
+    "intensity": "7",
+   
+    "location": { "latitude": 13.009267, "longitude": 74.795371},
+    "image":
+      "https://bsmedia.business-standard.com/_media/bs/img/article/2022-05/13/full/1652462127-1638.jpg?im=Resize,width=480",
+    #datetime: getCurrentDate(),
+    "policehelp": True,
+    "firehelp": True,
+    "ambulancehelp": False,
+    "otherhelp": False,
+    "imageurl": "",
+    "status": "NEW",
+  }
+
+
+
+details["image"]="hello"
+print(details)

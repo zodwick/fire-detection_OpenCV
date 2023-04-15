@@ -26,7 +26,7 @@ def write_to_firestore(colection_name: str, details: dict):
     doc_ref.set(
         details
     )
-    
+    print("Document written with ID: ")
 
 
 
@@ -35,9 +35,11 @@ def upload_to_firestore(bucket_name, source_file_name, destination_blob_name):
     bucket = storage.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
     blob.upload_from_filename(source_file_name)
-    print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+    # print(f"File {source_file_name} uploaded to {destination_blob_name}.")
     blob.make_public()
     print(blob.public_url)
+
+    return(blob.public_url)
 
 
 
@@ -54,13 +56,13 @@ details={
     "firehelp": True,
     "ambulancehelp": False,
     "otherhelp": False,
-    "imageurl": "",
     "status": "NEW",
   }
 
 
 
-
+details["image"]="hello"
+print(details)
 
 
 fire_cascade = cv2.CascadeClassifier('fire_detection.xml')
@@ -82,11 +84,15 @@ while 1:
  
     for (x,y,w,h) in fire:
         cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),4)
-        if i==2:
+        if i==3:
             f_name="fire"+str(i)+".jpg"
+            print("main")
             cv2.imwrite(f_name,img)
+            url=upload_to_firestore("hackverse-5ecdd.appspot.com",f_name,f_name)
+            details["image"]=url
             write_to_firestore("fire",details)
-            upload_to_firestore("hackverse-5ecdd.appspot.com",f_name,f_name)
+            print("done")
+
             
         #print(f_name)
 
@@ -94,8 +100,8 @@ while 1:
         # roi_color = img[y:y+h, x:x+w]
         # edges = cv2.Canny(roi_gray, 100, 200)
         # roi_color[edges != 0] = (0, 255, 0)
-        print ('Fire is detected..!')
-        print (i)
+        # print ('Fire is detected..!')
+        # print (i)
         i=i+1
 
         # ser1.write('p')
