@@ -10,9 +10,12 @@ from firebase_admin import credentials, storage
 
 
 cred = credentials.Certificate("hackverse-5ecdd-firebase-adminsdk-ftdmd-308179e4be.json")
+firebase_admin.initialize_app(cred, {'storageBucket': 'hackverse-5ecdd.appspot.com'})
+
+
 
 def write_to_firestore(colection_name: str, details: dict):
-    app = firebase_admin.initialize_app(cred)
+    # app = firebase_admin.initialize_app(cred)
     
     firestore_client = firestore.client()
     doc_ref = firestore_client.collection(colection_name).document()
@@ -24,12 +27,13 @@ def write_to_firestore(colection_name: str, details: dict):
 
 
 def upload_blob(bucket_name, source_file_name, destination_blob_name):
-    cred = credentials.Certificate("hackverse-5ecdd-firebase-adminsdk-ftdmd-308179e4be.json")
-    firebase_admin.initialize_app(cred, {'storageBucket': bucket_name})
+    # cred = credentials.Certificate("hackverse-5ecdd-firebase-adminsdk-ftdmd-308179e4be.json")
     bucket = storage.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
     blob.upload_from_filename(source_file_name)
     print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+    blob.make_public()
+    print(blob.public_url)
 
 
 
@@ -53,6 +57,6 @@ details={
 
 
 # Example usage
-upload_blob('hackverse-5ecdd.appspot.com', 'wordle.png', 'images/beatiful_picture.jpg')
-write_to_firestore('fire', details)
+upload_blob('hackverse-5ecdd.appspot.com', 'wordle.png', 'wordle.png')
+# write_to_firestore('fire', details)
 
