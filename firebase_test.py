@@ -1,10 +1,36 @@
 import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
+from google.cloud import storage
+from google.oauth2 import service_account
+from firebase_admin import credentials, storage
+
+
+
+
 
 cred = credentials.Certificate("hackverse-5ecdd-firebase-adminsdk-ftdmd-308179e4be.json")
-app = firebase_admin.initialize_app(cred)
-firestore_client = firestore.client()
+
+def write_to_firestore(colection_name: str, details: dict):
+    app = firebase_admin.initialize_app(cred)
+    
+    firestore_client = firestore.client()
+    doc_ref = firestore_client.collection(colection_name).document()
+    doc_ref.set(
+        details
+    )
+    
+
+
+
+def upload_blob(bucket_name, source_file_name, destination_blob_name):
+    cred = credentials.Certificate("hackverse-5ecdd-firebase-adminsdk-ftdmd-308179e4be.json")
+    firebase_admin.initialize_app(cred, {'storageBucket': bucket_name})
+    bucket = storage.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+    blob.upload_from_filename(source_file_name)
+    print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+
 
 
 details={
@@ -25,8 +51,8 @@ details={
   }
 
 
-doc_ref = firestore_client.collection("laptops").document()
-doc_ref.set(
-    details
-)
+
+# Example usage
+upload_blob('hackverse-5ecdd.appspot.com', 'wordle.png', 'images/beatiful_picture.jpg')
+write_to_firestore('fire', details)
 
