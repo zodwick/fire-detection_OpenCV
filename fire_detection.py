@@ -68,7 +68,7 @@ print(details)
 fire_cascade = cv2.CascadeClassifier('fire_detection.xml')
 #fire_detection.xml file & this code should be in the same folder while running the code as no path is given
 
-cap = cv2.VideoCapture("v5.mp4")
+cap = cv2.VideoCapture("v7.mp4")
 i=0
 flag=0
  
@@ -96,10 +96,10 @@ while 1:
             
         #print(f_name)
 
-        # roi_gray = gray[y:y+h, x:x+w]
-        # roi_color = img[y:y+h, x:x+w]
-        # edges = cv2.Canny(roi_gray, 100, 200)
-        # roi_color[edges != 0] = (0, 255, 0)
+        roi_gray = gray[y:y+h, x:x+w]
+        roi_color = img[y:y+h, x:x+w]
+        edges = cv2.Canny(roi_gray, 100, 200)
+        roi_color[edges != 0] = (0, 255, 0)
         # print ('Fire is detected..!')
         # print (i)
         i=i+1
