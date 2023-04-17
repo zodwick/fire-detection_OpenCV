@@ -44,12 +44,12 @@ def upload_to_firestore(bucket_name, source_file_name, destination_blob_name):
 
 
 details={
-    "tittle": "Fire accident",
-    "description": "A big building got large fire",
+    "tittle": "Fire accident 2",
+    "description": "A big building was fire",
     "intensity": "7",
    
     "location": { "latitude": 13.009267, "longitude": 74.795371},
-    "image":
+    "imageurl":
       "https://bsmedia.business-standard.com/_media/bs/img/article/2022-05/13/full/1652462127-1638.jpg?im=Resize,width=480",
     #datetime: getCurrentDate(),
     "policehelp": True,
@@ -61,8 +61,7 @@ details={
 
 
 
-details["image"]="hello"
-print(details)
+# print(details)
 
 
 fire_cascade = cv2.CascadeClassifier('fire_detection.xml')
@@ -84,12 +83,12 @@ while 1:
  
     for (x,y,w,h) in fire:
         cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),4)
-        if i==10:
+        if i==3:
             f_name="fire"+str(i)+".jpg"
             print("main")
             cv2.imwrite(f_name,img)
             url=upload_to_firestore("hackverse-5ecdd.appspot.com",f_name,f_name)
-            details["image"]=url
+            details["imageurl"]=url
             write_to_firestore("fire",details)
             print("done")
 
